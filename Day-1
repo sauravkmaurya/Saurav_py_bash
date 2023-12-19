@@ -1,0 +1,52 @@
+###################### Task 1: Create 20 files with .txt extensions and rename the firt 5 files to .yml extension ######################
+
+ubuntu $ touch Demo{1..20}.txt
+ubuntu $ ls -l
+total 0
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo1.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo10.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo11.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo12.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo13.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo14.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo15.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo16.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo17.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo18.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo19.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo2.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo20.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo3.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo4.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo5.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo6.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo7.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo8.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo9.txt
+ubuntu $ mv Demo1.txt Demo1.yml 
+ubuntu $ mv Demo2.txt Demo2.yml
+ubuntu $ mv Demo3.txt Demo3.yml
+ubuntu $ mv Demo4.txt Demo4.yml
+ubuntu $ mv Demo5.txt Demo5.yml
+ubuntu $ ls -lX
+total 0
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo10.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo11.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo12.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo13.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo14.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo15.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo16.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo17.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo18.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo19.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo20.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo6.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo7.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo8.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo9.txt
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo1.yml
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo2.yml
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo3.yml
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo4.yml
+-rw-r--r-- 1 root root 0 Dec 19 11:44 Demo5.yml
