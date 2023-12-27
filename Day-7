@@ -1,0 +1,31 @@
+Task -  Do hands on with sample bash scripting
+
+ubuntu $ touch saurav01.sh
+ubuntu $ nano saurav01.sh 
+ubuntu $ cat saurav01.sh 
+#!/bin/bash
+
+Name="Saurav Kumar Maurya"
+Course="Devops"
+
+echo "Hi My Name is $Name"
+echo "and I'm learing about "$Course
+ubuntu $ chmod 744 saurav01.sh 
+ubuntu $ ls -lrt
+total 72
+lrwxrwxrwx 1 root      root          1 Dec 25 20:18 filesystem -> /
+drwx------ 3 root      root       4096 Dec 27 15:52 snap
+-rw-r--r-- 1 root      root          0 Dec 27 16:14 file-02
+-rw-r--r-- 1 root      root          0 Dec 27 16:14 file-01
+drwxr-xr-x 3 root      root       4096 Dec 27 16:14 testdir
+drwxr-xr-x 2 root      root       4096 Dec 27 16:14 testDir
+-rw-r--r-- 1 otheruser otheruser    19 Dec 27 16:14 notmyfile2
+-rw-r--r-- 1 testuser  testuser     18 Dec 27 16:14 notmyfile
+-rw-r--r-- 1 root      root         18 Dec 27 16:14 file-01.txt
+-rw-r--r-- 1 root      root      36164 Dec 27 16:14 File-01.txt
+-rwxr--r-- 1 root      root         98 Dec 27 16:19 kumar01.sh
+-rwxr--r-- 1 root      root         90 Dec 27 16:33 var01.sh
+-rwxr--r-- 1 root      root        121 Dec 27 16:52 saurav01.sh
+ubuntu $ ./saurav01.sh 
+Hi My Name is Saurav Kumar Maurya
+and I'm learing about Devops
