@@ -1,5 +1,6 @@
 Task -  Do hands on with sample bash scripting
 
+Solution:
 ubuntu $ touch saurav01.sh
 ubuntu $ nano saurav01.sh 
 ubuntu $ cat saurav01.sh 
