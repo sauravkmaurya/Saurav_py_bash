@@ -1,0 +1,38 @@
+TASK - Practice if statements with multiple matching conditions.
+
+Solution:
+
+ubuntu $ nano case.sh 
+ubuntu $ cat case.sh 
+#!/bin/bash
+
+read -p "Enter the Marks Obtained out of 100: " mark
+
+if [ $mark -ge 80 ]
+then
+    echo "You Passed First Division"
+elif [ $mark -ge 60 ]
+then
+    echo "You Passed Second Division"
+elif [ $mark -ge 40 ]
+then
+    echo "You Passed Third Division"
+else
+    echo "You Failed, TRY AGAIN!!!"
+fi
+
+
+ubuntu $ chmod 744 case.sh 
+ubuntu $ ./case.sh 
+Enter the Marks Obtained out of 100: 59
+You Passed Third Division
+ubuntu $ ./case.sh 
+Enter the Marks Obtained out of 100: 39
+You Failed, TRY AGAIN!!!
+ubuntu $ ./case.sh 
+Enter the Marks Obtained out of 100: 92
+You Passed First Division
+ubuntu $ ./case.sh 
+Enter the Marks Obtained out of 100: 74
+You Passed Second Division
+ubuntu $ 
