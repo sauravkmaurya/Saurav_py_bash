@@ -1,0 +1,35 @@
+
+QUERY FOR MATHEMATICS EXPRESSION.
+
+mkdir saurav_01
+
+#this allow us to write the Script
+
+nano file_01.sh
+
+
+#!/bin/bash            
+
+read -p "Enter the First Value :" num1
+read -p "Enter the Second Value:" num2
+
+sum=$((num1 + num2))
+delta=$(( num1 - num2))
+multi=$(( num1 +num2))
+
+#now we use the if case for the division method sop that we don't get the Zero Value
+
+if [ $num2 -ne 0 ]; then
+    divi=$(bc <<< "scale=2; $num1/$num2")
+else
+    divi="Undefined Vale (The number is no divisible with Zero)"
+fi
+
+#Now we give all the input to the users
+
+echo "the Sum of both the number is:" $sum
+echo "the Delta between these two number is:" $delta
+echo "the Product of these two number is:" $multi
+echo "the division is:" $divi
+
+
