@@ -1,0 +1,29 @@
+NAME INPUT FROM USER AND GREET THEM
+
+
+nano file_02.sh
+
+#!/bin/bash
+
+#promoting the User to enter the value 
+
+echo "Enter names (press Enter after each name, type 'done' to finish):"
+names=()
+
+#Loop to read the names into an array
+
+while true; do
+        read -p ">" name
+        if ["$name" == "done" ]; then
+            break
+        fi
+        names+=("Sname")
+done
+
+#greeting each name 
+
+for name in "${name[@]}"; do
+    echo "Hello: $name!"
+done
+
+
