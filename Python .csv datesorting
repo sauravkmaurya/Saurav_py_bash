@@ -1,0 +1,25 @@
+import pandas as pd
+
+# Load the CSV file into a DataFrame
+print('Starting to process')
+file = 'C:/Users/saurav.kumar6/Desktop/Dump Files/2024/year2022.csv'
+df = pd.read_csv(file)
+
+#form the main .csv file
+df['approve_date'] = pd.to_datetime(df['approve_date'])
+
+#breaking into yyyy mm & dd
+
+df['year'] = df['approve_date'].dt.year
+df['month'] = df['approve_date'].dt.month
+df['day'] = df['approve_date'].dt.day
+
+#use only if required 
+df_filtered = df[df['year'] == 2022]
+
+
+output_file = 'C:/Users/saurav.kumar6/Desktop/Dump Files/2024/2022consolidated.csv'
+df_filtered.to_csv(output_file, index=False)
+
+
+print(f'Filtered data saved to {output_file}')
