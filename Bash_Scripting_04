@@ -1,0 +1,54 @@
+CLASS GRADING SYSTEM
+
+
+nano file_03.sh
+
+#!/bin/bash
+
+#this script calculate the average grade and lists students above the averages
+
+#functions to calculate average grade
+calculate_average() {
+    local total=0
+    local count=0
+
+    #read grades from file and calculate total
+    while IFS=, read -r name grade; do
+        ((total += grade))
+        ((count++))
+    done < "$1"
+
+    #Calculate average
+    if (( count > 0)); then
+        average=$((total / count))
+        echo "average grade: $average"
+    else
+        echo "No grades found in the file."
+        exit 1
+    fi    
+}
+
+#function to list students above average
+
+list_above_average() {
+    loacl average-$1
+
+    echo "student with grade above average:"
+    while IFS=, read -r name grade; do
+        if(( grade > average )); then
+            echo $name
+        else
+            echo "the value end here" $name
+        fi
+    done < "$2"            
+}
+
+#Main scrpit starts here
+if [[ ! -f "$1" ]]; then
+    echo "Error: file '$1' not found."
+    exit 1
+fi
+
+calculate_average "$1"
+average_grade=$(calculate_average "$1" | awk '{print $3}')
+list_above_average "$average_grade" "$1"
