@@ -1,0 +1,141 @@
+import pandas as pd, requests, csv
+from bs4 import BeautifulSoup
+
+ 
+pd.options.display.max_rows = 9999
+
+# _code = https://github.com/AkberJag/flipKsrapt/blob/master/FlipKsrapt.py
+_CategoryLink = "https://www.flipkart.com/favourite-enid-blyton-stories/p/itmf3yxt3njbju4k?pid="
+_SellerLink = "https://www.flipkart.com/sellers?pid="
+_header = True
+
+ 
+def make_csv(datas):
+
+    global  _header
+
+    dict = {
+            'FSN' :                   datas[0], # 'FSN
+            'Seller Name' :           datas[1], # pr_seller_name
+    #       'Product Name' :          datas[5], # pr_names
+            'Selling price' :         datas[2], # pr_price_selling,
+            'Original price' :        datas[3], # pr_price_original
+            }
+
+ 
+# generating csv file using pandas
+    try:
+        df = pd.DataFrame.from_dict([dict])
+    except Exception as e:
+        print('Error: ', e)
+        return
+
+    with open('output_1.csv', 'a+', encoding="utf-8", newline='') as outputfile:
+
+        # to check for title
+
+        if _header is True:
+            df.to_csv(outputfile, index=False, header=True)
+            _header = False
+        else:
+            df.to_csv(outputfile, index=False, header=False)
+
+
+def product_spider(product_url, fsn):
+    product_names = []
+    product_price_original = []
+    product_price_selling = []
+
+    get_product_page = requests.get(product_url, verify=False)
+
+    product_page_soup = BeautifulSoup(get_product_page.text, 'html.parser')
+
+    # seller name
+
+    if type(product_page_soup.find('div', {'class':'EElWwG'})) != type(None):
+        pr_seller_name= str(product_page_soup.find('div', {'class':'EElWwG'}).text)
+    else:
+        pr_seller_name = 'Not available try again'
+    print(pr_seller_name)
+
+
+    # product name
+    #if type(product_page_soup.find('span', {'class':'VU-ZEz'})) != type(None):
+    #    pr_names = str(product_page_soup.find('span', {'class':'VU-ZEz'}).text).replace(',', '')
+    #else:
+    #    pr_names = 'Not available try again'
+    #print(pr_names)
+
+
+    # product selling price
+
+    if type(product_page_soup.find('div', {'class':'Nx9bqj'})) != type(None):
+        pr_price_selling = str(product_page_soup.find('div', {'class':'Nx9bqj'}).text).replace('₹', 'Rs ')
+    else:
+        pr_price_selling = 'Null'
+    print(pr_price_selling)
+
+
+    # product original price
+
+    if type(product_page_soup.find('div', {'class':'yRaY8j'})) != type(None):
+        pr_price_original = str(product_page_soup.find('div', {'class':'yRaY8j'}).text).replace('₹', 'Rs ')
+    else:
+        pr_price_original = 'Null'
+    print(pr_price_original)
+ 
+
+    make_csv([
+            fsn,
+            pr_seller_name,
+    #       pr_names,
+            pr_price_selling,
+            pr_price_original
+            ])
+
+def page_spider():
+        print('\n<-------- crawling page-------->\n')
+
+        # code to create url using category url and the FSN number
+        # write a loop to read from input_data.xls "FSN" field and then for each FSN,
+        # create a product URL, Seller Url, and then call web requests to fetch the HTML soup and then
+        # extract the pr_names, pr_price_selling and pr_price_original
+        # with open("C:\\repos\\local\\flipkart_web_scrapping\\input_data.csv", mode='r') as file:
+
+        #csvfile = csv.reader(file)
+        csvfile = pd.read_csv("C:\\Users\\saurav.kumar6\\Desktop\\saurav_kumar\\Scraping_Flipkart\\Seller_data.csv")
+
+        #print(csvfile)
+        #print(csvfile.head())
+
+       
+
+        for i, j in csvfile.iterrows():           
+            fsn = str(j.values[0])
+            #print(fsn)
+            Prod_url =_CategoryLink + fsn
+
+            print (Prod_url)
+            Sell_url = _SellerLink + fsn
+            print (Sell_url)
+
+            get_flipkart_page = requests.get(Sell_url, verify=False)
+
+            flipkart_soup = BeautifulSoup(get_flipkart_page.text, 'html.parser')
+
+            # sanity check
+
+            if flipkart_soup != []:
+                product_spider(Sell_url, fsn)
+
+ 
+if __name__ == '__main__':
+    try:
+        page_spider()
+    except KeyboardInterrupt:
+        print("\nGood Bye..!")
+
+    #except:
+    except Exception as e:
+        print('Error: ', e)
+        #print('some error occurred, try again..')
