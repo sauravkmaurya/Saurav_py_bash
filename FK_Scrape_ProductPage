@@ -1,0 +1,121 @@
+import pandas as pd
+import requests
+from bs4 import BeautifulSoup
+import csv
+
+# Config. and picking up file to Scrape
+input_csv_path = "C:\\Users\\saurav.kumar6\\Desktop\\saurav_kumar\\Scraping_Flipkart\\input_data.csv"
+output_csv_path = "output.csv"
+_CategoryLink = "https://www.flipkart.com/favourite-enid-blyton-stories/p/itmf3yxt3njbju4k?pid="
+_SellerLink = "https://www.flipkart.com/sellers?pid="
+_header = True
+
+# ANSI escape codes for colors
+RED = '\033[91m'
+RESET = '\033[0m'
+YELLOW = '\033[33m'
+
+def make_csv(datas):
+    global _header
+
+    data_dict = {
+        'FSN':                  datas[0],  # FSN
+        'Product Name':         datas[1],  # pr_names
+        'Selling price':        datas[2],  # pr_price_selling
+        'Original price':       datas[3],  # pr_price_original
+        'Seller Name':          datas[4]   # pr_seller_name
+    }
+
+    # Generating CSV file to store the Scrape Data
+    try:
+        df = pd.DataFrame.from_dict([data_dict])
+    except Exception as e:
+        print('Error: ', e)
+        return
+
+    with open(output_csv_path, 'a+', encoding="utf-8", newline='') as outputfile:
+        if _header:
+            df.to_csv(outputfile, index=False, header=True)
+            _header = False
+        else:
+            df.to_csv(outputfile, index=False, header=False)
+
+def product_spider(product_url, fsn):
+    try:
+        get_product_page = requests.get(product_url, verify=False)
+        product_page_soup = BeautifulSoup(get_product_page.text, 'html.parser')
+
+        # Product name
+        pr_names = product_page_soup.find('span', {'class': 'VU-ZEz'})
+        pr_names = str(pr_names.text).replace(',', '') if pr_names else 'Not available try again'
+        print(pr_names)
+
+        # Product selling price
+        pr_price_selling = product_page_soup.find('div', {'class': 'Nx9bqj CxhGGd'})
+        pr_price_selling = str(pr_price_selling.text).replace('₹', 'Rs ') if pr_price_selling else 'Null'
+        print(pr_price_selling)
+
+        # Product original price
+        pr_price_original = product_page_soup.find('div', {'class': 'yRaY8j A6+E6v'})
+        pr_price_original = str(pr_price_original.text).replace('₹', 'Rs ') if pr_price_original else 'Null'
+        print(pr_price_original)
+
+        # Seller name
+        pr_seller_name = product_page_soup.find('div', {'class': 'yeLeBC'})
+        pr_seller_name = str(pr_seller_name.text) if pr_seller_name else 'Not available try again'
+        print(pr_seller_name)
+
+        make_csv([
+                    fsn,
+                    pr_names,
+                    pr_price_selling,
+                    pr_price_original,
+                    pr_seller_name
+                ])
+
+    except requests.RequestException as e:
+        print(f"Error fetching product page: {e}")
+
+def page_spider():
+    print('\n<-------- crawling page-------->\n')
+
+    # Read the input CSV file
+    csvfile = pd.read_csv(input_csv_path)
+
+    # Total number of rows in the CSV
+    total_rows = len(csvfile)
+    print(f"Total No. of FSN's: {total_rows}")
+
+    header = True
+    scraped_count = 0
+
+    for i, j in csvfile.iterrows():
+        fsn = str(j.values[0])
+        Prod_url = _CategoryLink + fsn
+        Sell_url = _SellerLink + fsn
+
+        print(f"Processing URL: {Prod_url}")
+        print(f"Seller URL: {Sell_url}")
+
+        try:
+            get_flipkart_page = requests.get(Prod_url, verify=False)
+            flipkart_soup = BeautifulSoup(get_flipkart_page.text, 'html.parser')
+
+            # Sanity check
+            if flipkart_soup:
+                product_spider(Prod_url, fsn)
+                scraped_count += 1
+                print(f"{YELLOW}Scraped {scraped_count}/{total_rows} rows{RESET}")
+
+        except requests.RequestException as e:
+            print(f"Error fetching category page: {e}")
+
+    print(f"{RED}Scraping completed. Total rows scraped: {scraped_count}/{total_rows}{RESET}")
+
+if __name__ == '__main__':
+    try:
+        page_spider()
+    except KeyboardInterrupt:
+        print("\nGood Bye..!")
+    except Exception as e:
+        print('Error: ', e)
