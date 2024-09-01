@@ -10,6 +10,7 @@ _CategoryLink = "https://www.flipkart.com/favourite-enid-blyton-stories/p/itmf3y
 _SellerLink = "https://www.flipkart.com/sellers?pid="
 _header = True
 
+
 # ANSI escape codes for colors
 RED = '\033[91m'
 RESET = '\033[0m'
@@ -23,7 +24,8 @@ def make_csv(datas):
         'Product Name':         datas[1],  # pr_names
         'Selling price':        datas[2],  # pr_price_selling
         'Original price':       datas[3],  # pr_price_original
-        'Seller Name':          datas[4]   # pr_seller_name
+        'Seller Name':          datas[4],  # pr_seller_name
+        'Shipping Fees':        datas[5]   # pr_shipping_fees
     }
 
     # Generating CSV file to store the Scrape Data
@@ -65,12 +67,18 @@ def product_spider(product_url, fsn):
         pr_seller_name = str(pr_seller_name.text) if pr_seller_name else 'Not available try again'
         print(pr_seller_name)
 
+        # Shipping Fees
+        pr_shipping_fees = product_page_soup.find('div', {'class': 'hVvnXm'})
+        pr_shipping_fees = str(pr_shipping_fees.text).replace('₹', 'Rs ') if pr_shipping_fees else 'Null'
+        print(pr_shipping_fees)
+
         make_csv([
                     fsn,
                     pr_names,
                     pr_price_selling,
                     pr_price_original,
-                    pr_seller_name
+                    pr_seller_name,
+                    pr_shipping_fees
                 ])
 
     except requests.RequestException as e:
